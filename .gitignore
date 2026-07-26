@@ -1,0 +1,8 @@
+# Rust (genko-ls workspace)
+target/
+
+# Node (test fixtures for Zenn/Qiita projects)
+node_modules/
+
+# macOS
+.DS_Store
