@@ -1,0 +1,87 @@
+==================
+Heading
+==================
+
+# 第一章
+本文
+
+---
+
+(source_file
+  (heading
+    marker: (heading_marker)
+    title: (heading_text))
+  (paragraph
+    (plain_text)))
+
+==================
+Dialogue and nested markup
+==================
+
+「彼は『｜原稿《げんこう》に《《傍点》》を』と言った。」
+
+---
+
+(source_file
+  (paragraph
+    (primary_dialogue
+      (primary_dialogue_content
+        (primary_dialogue_text)
+        (secondary_dialogue
+          (secondary_dialogue_content
+            (explicit_ruby
+              base: (ruby_base)
+              reading: (ruby_reading))
+            (secondary_dialogue_text)
+            (kakuyomu_emphasis
+              text: (emphasis_text))
+            (secondary_dialogue_text)))
+        (primary_dialogue_text)))))
+
+==================
+Kakuyomu emphasis is not ruby
+==================
+
+｜原稿《げんこう》と《《傍点》》
+
+---
+
+(source_file
+  (paragraph
+    (explicit_ruby
+      base: (ruby_base)
+      reading: (ruby_reading))
+    (plain_text)
+    (kakuyomu_emphasis
+      text: (emphasis_text))))
+
+==================
+Aozora annotation and HTML comment
+==================
+
+本文［＃ここから傍点］<!-- 編集メモ -->続き
+
+---
+
+(source_file
+  (paragraph
+    (plain_text)
+    (aozora_annotation
+      text: (annotation_text))
+    (html_comment)
+    (plain_text)))
+
+==================
+Multiline HTML comment
+==================
+
+前<!-- 編集
+メモ -->後
+
+---
+
+(source_file
+  (paragraph
+    (plain_text)
+    (html_comment)
+    (plain_text)))

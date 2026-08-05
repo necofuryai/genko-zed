@@ -1,0 +1,328 @@
+[
+  {
+    "type": "aozora_annotation",
+    "named": true,
+    "fields": {
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "annotation_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "emphasis_text",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "explicit_ruby",
+    "named": true,
+    "fields": {
+      "base": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ruby_base",
+            "named": true
+          }
+        ]
+      },
+      "reading": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ruby_reading",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "heading",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "heading_marker",
+            "named": true
+          }
+        ]
+      },
+      "title": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "heading_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "kakuyomu_emphasis",
+    "named": true,
+    "fields": {
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "emphasis_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "paragraph",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "aozora_annotation",
+          "named": true
+        },
+        {
+          "type": "explicit_ruby",
+          "named": true
+        },
+        {
+          "type": "html_comment",
+          "named": true
+        },
+        {
+          "type": "kakuyomu_emphasis",
+          "named": true
+        },
+        {
+          "type": "plain_text",
+          "named": true
+        },
+        {
+          "type": "primary_dialogue",
+          "named": true
+        },
+        {
+          "type": "secondary_dialogue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "primary_dialogue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "primary_dialogue_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "primary_dialogue_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "aozora_annotation",
+          "named": true
+        },
+        {
+          "type": "explicit_ruby",
+          "named": true
+        },
+        {
+          "type": "html_comment",
+          "named": true
+        },
+        {
+          "type": "kakuyomu_emphasis",
+          "named": true
+        },
+        {
+          "type": "primary_dialogue_text",
+          "named": true
+        },
+        {
+          "type": "secondary_dialogue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_base",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ruby_reading",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "secondary_dialogue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "secondary_dialogue_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "secondary_dialogue_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "aozora_annotation",
+          "named": true
+        },
+        {
+          "type": "explicit_ruby",
+          "named": true
+        },
+        {
+          "type": "html_comment",
+          "named": true
+        },
+        {
+          "type": "kakuyomu_emphasis",
+          "named": true
+        },
+        {
+          "type": "secondary_dialogue_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_text",
+    "named": true
+  },
+  {
+    "type": "heading_marker",
+    "named": true
+  },
+  {
+    "type": "heading_text",
+    "named": true
+  },
+  {
+    "type": "html_comment",
+    "named": true
+  },
+  {
+    "type": "plain_text",
+    "named": true
+  },
+  {
+    "type": "primary_dialogue_text",
+    "named": true
+  },
+  {
+    "type": "secondary_dialogue_text",
+    "named": true
+  },
+  {
+    "type": "《",
+    "named": false
+  },
+  {
+    "type": "《《",
+    "named": false
+  },
+  {
+    "type": "》",
+    "named": false
+  },
+  {
+    "type": "》》",
+    "named": false
+  },
+  {
+    "type": "「",
+    "named": false
+  },
+  {
+    "type": "」",
+    "named": false
+  },
+  {
+    "type": "『",
+    "named": false
+  },
+  {
+    "type": "』",
+    "named": false
+  },
+  {
+    "type": "［＃",
+    "named": false
+  },
+  {
+    "type": "］",
+    "named": false
+  },
+  {
+    "type": "｜",
+    "named": false
+  }
+]

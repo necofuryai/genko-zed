@@ -1,0 +1,37 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "genko",
+      "camelcase": "Genko",
+      "title": "Genko",
+      "scope": "source.genko",
+      "file-types": [
+        "genko"
+      ],
+      "injection-regex": "^genko$",
+      "class-name": "TreeSitterGenko"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "A tree-sitter grammar for Genko Novel manuscripts.",
+    "authors": [
+      {
+        "name": "necofuryai"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/necofuryai/genko-zed"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": false,
+    "node": false,
+    "python": false,
+    "rust": false,
+    "swift": false
+  }
+}

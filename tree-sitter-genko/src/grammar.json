@@ -1,0 +1,480 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
+  "name": "genko",
+  "rules": {
+    "source_file": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "heading"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "paragraph"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_newline"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_newline"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "heading"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "heading": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "marker",
+            "content": {
+              "type": "SYMBOL",
+              "name": "heading_marker"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_horizontal_space"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "title",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "heading_text"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "heading_marker": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "#{1,6}"
+      }
+    },
+    "heading_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^ \\t\\r\\n][^\\r\\n]*"
+      }
+    },
+    "paragraph": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_inline"
+      }
+    },
+    "_inline": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "primary_dialogue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "secondary_dialogue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_common_markup"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "plain_text"
+        }
+      ]
+    },
+    "_common_markup": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "explicit_ruby"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kakuyomu_emphasis"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "aozora_annotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "html_comment"
+        }
+      ]
+    },
+    "primary_dialogue": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "「"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "primary_dialogue_content"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "」"
+        }
+      ]
+    },
+    "primary_dialogue_content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "secondary_dialogue"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_common_markup"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "primary_dialogue_text"
+          }
+        ]
+      }
+    },
+    "primary_dialogue_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^『｜《［<」\\r\\n]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[『｜《［<]"
+          }
+        ]
+      }
+    },
+    "secondary_dialogue": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "『"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "secondary_dialogue_content"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "』"
+        }
+      ]
+    },
+    "secondary_dialogue_content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_common_markup"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "secondary_dialogue_text"
+          }
+        ]
+      }
+    },
+    "secondary_dialogue_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^｜《［<』\\r\\n]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[｜《［<]"
+          }
+        ]
+      }
+    },
+    "explicit_ruby": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "｜"
+        },
+        {
+          "type": "FIELD",
+          "name": "base",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ruby_base"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "《"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "reading",
+              "content": {
+                "type": "SYMBOL",
+                "name": "ruby_reading"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "》"
+        }
+      ]
+    },
+    "ruby_base": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^《》\\r\\n]+"
+      }
+    },
+    "ruby_reading": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^《》\\r\\n]+"
+      }
+    },
+    "kakuyomu_emphasis": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "《《"
+        },
+        {
+          "type": "FIELD",
+          "name": "text",
+          "content": {
+            "type": "SYMBOL",
+            "name": "emphasis_text"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "》》"
+        }
+      ]
+    },
+    "emphasis_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^《》\\r\\n]+"
+      }
+    },
+    "aozora_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "［＃"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "text",
+              "content": {
+                "type": "SYMBOL",
+                "name": "annotation_text"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "］"
+        }
+      ]
+    },
+    "annotation_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^］\\r\\n]+"
+      }
+    },
+    "html_comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "<!--"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^-]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "-[^-]"
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "-->"
+          }
+        ]
+      }
+    },
+    "plain_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^#「『｜《［<\\r\\n]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[#「『｜《［<]"
+          }
+        ]
+      }
+    },
+    "_horizontal_space": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[ \\t]+"
+      }
+    },
+    "_newline": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\r?\\n"
+      }
+    }
+  },
+  "extras": [],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": [],
+  "reserved": {}
+}

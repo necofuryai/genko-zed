@@ -1,0 +1,79 @@
+==================
+Unclosed primary dialogue stops at newline
+==================
+
+「閉じていない会話
+# 次の見出し
+次の本文
+
+---
+
+(source_file
+  (paragraph
+    (primary_dialogue
+      (primary_dialogue_content
+        (primary_dialogue_text))
+      (MISSING "」")))
+  (heading
+    marker: (heading_marker)
+    title: (heading_text))
+  (paragraph
+    (plain_text)))
+
+==================
+Unclosed secondary dialogue stops at newline
+==================
+
+『閉じていない会話
+「次の行は会話」
+
+---
+
+(source_file
+  (paragraph
+    (secondary_dialogue
+      (secondary_dialogue_content
+        (secondary_dialogue_text))
+      (MISSING "』")))
+  (paragraph
+    (primary_dialogue
+      (primary_dialogue_content
+        (primary_dialogue_text)))))
+
+==================
+Unclosed ruby stops at newline
+==================
+
+｜原稿《げんこう
+「次の行は会話」
+
+---
+
+(source_file
+  (paragraph
+    (explicit_ruby
+      (ruby_base)
+      (ruby_reading)
+      (MISSING "》")))
+  (paragraph
+    (primary_dialogue
+      (primary_dialogue_content
+        (primary_dialogue_text)))))
+
+==================
+Unclosed HTML comment stops at newline
+==================
+
+<!-- 閉じていない
+『次の行は二重鉤括弧』
+
+---
+
+(source_file
+  (paragraph
+    (plain_text)
+    (plain_text))
+  (paragraph
+    (secondary_dialogue
+      (secondary_dialogue_content
+        (secondary_dialogue_text)))))
