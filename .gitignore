@@ -3,6 +3,10 @@ target/
 
 # Node (test fixtures for Zenn/Qiita projects)
 node_modules/
+.pnpm-store/
+
+# Release artifacts
+dist/
 
 # macOS
 .DS_Store

@@ -1,0 +1,3 @@
+name = "Genko Novel"
+grammar = "genko"
+path_suffixes = ["genko"]

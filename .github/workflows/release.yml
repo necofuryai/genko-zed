@@ -1,0 +1,126 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify-version:
+    name: Verify version
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Match tag to package version
+        shell: bash
+        run: |
+          package_version="$(cargo metadata --locked --no-deps --format-version 1 | jq -r '.packages[] | select(.name == "genko-zed") | .version')"
+          test "v${package_version}" = "${GITHUB_REF_NAME}"
+
+  build:
+    name: Build ${{ matrix.target }}
+    needs: verify-version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15-intel
+            target: x86_64-apple-darwin
+            archive: genko-ls-x86_64-apple-darwin.tar.gz
+          - runner: macos-15
+            target: aarch64-apple-darwin
+            archive: genko-ls-aarch64-apple-darwin.tar.gz
+          - runner: ubuntu-24.04
+            target: x86_64-unknown-linux-musl
+            archive: genko-ls-x86_64-unknown-linux-musl.tar.gz
+          - runner: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-musl
+            archive: genko-ls-aarch64-unknown-linux-musl.tar.gz
+          - runner: windows-2025
+            target: x86_64-pc-windows-msvc
+            archive: genko-ls-x86_64-pc-windows-msvc.zip
+          - runner: windows-11-arm
+            target: aarch64-pc-windows-msvc
+            archive: genko-ls-aarch64-pc-windows-msvc.zip
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "1.90"
+          target: ${{ matrix.target }}
+
+      - name: Install musl tools
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes musl-tools
+
+      - name: Build language server
+        run: cargo build --locked --release --package genko-ls --target ${{ matrix.target }}
+
+      - name: Package language server
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          staging="dist/${{ matrix.target }}"
+          mkdir -p "${staging}"
+          cp "target/${{ matrix.target }}/release/genko-ls" "${staging}/genko-ls"
+          tar -C "${staging}" -czf "dist/${{ matrix.archive }}" genko-ls
+
+      - name: Package language server on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $staging = "dist/${{ matrix.target }}"
+          New-Item -ItemType Directory -Force -Path $staging
+          Copy-Item "target/${{ matrix.target }}/release/genko-ls.exe" "$staging/genko-ls.exe"
+          Compress-Archive -Path "$staging/genko-ls.exe" -DestinationPath "dist/${{ matrix.archive }}"
+
+      - name: Upload release asset
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-${{ matrix.target }}
+          path: dist/${{ matrix.archive }}
+          if-no-files-found: error
+          retention-days: 1
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@v8
+        with:
+          pattern: release-*
+          path: dist
+          merge-multiple: true
+
+      - name: Generate checksums
+        working-directory: dist
+        run: sha256sum genko-ls-* > SHA256SUMS
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --verify-tag --generate-notes --title "${GITHUB_REF_NAME}"

@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "1.90"
+          components: rustfmt, clippy
+          target: wasm32-wasip2
+
+      - name: Check formatting
+        run: cargo fmt --all --check
+
+      - name: Run Clippy
+        run: cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+
+      - name: Test extension adapter
+        run: cargo test --locked --package genko-zed --lib
+
+      - name: Test language server
+        run: cargo test --locked --package genko-ls --all-features
+
+      - name: Build extension WebAssembly
+        run: cargo build --locked --release --package genko-zed --target wasm32-wasip2
+
+  grammar:
+    name: Tree-sitter grammar
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: tree-sitter-genko
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.30.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: tree-sitter-genko/pnpm-lock.yaml
+
+      - name: Install grammar dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate parser
+        run: pnpm run generate
+
+      - name: Verify generated parser is current
+        run: git diff --exit-code -- src
+
+      - name: Test grammar
+        run: pnpm test
