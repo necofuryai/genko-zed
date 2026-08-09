@@ -1,0 +1,156 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "baseBranchPatterns": [
+    "main"
+  ],
+  "enabledManagers": [
+    "cargo",
+    "npm",
+    "github-actions",
+    "rust-toolchain",
+    "nodenv"
+  ],
+  "timezone": "Asia/Tokyo",
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "dependencyDashboard": true,
+  "prConcurrentLimit": 4,
+  "prHourlyLimit": 2,
+  "minimumReleaseAge": "7 days",
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "automerge": false,
+  "platformAutomerge": false,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "minimumReleaseAge": null
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on the first day of the month"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Require Dependency Dashboard approval before major-update PR creation",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Group routine Cargo updates",
+      "matchManagers": [
+        "cargo"
+      ],
+      "matchPackageNames": [
+        "tokio",
+        "unicode-segmentation",
+        "serde_json"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "cargo routine updates",
+      "groupSlug": "cargo-routine"
+    },
+    {
+      "description": "Group npm development-tool updates within the grammar package",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchFileNames": [
+        "tree-sitter-genko/package.json"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "tree-sitter grammar tooling",
+      "groupSlug": "tree-sitter-grammar-tooling"
+    },
+    {
+      "description": "Group non-major GitHub Actions updates",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "pinDigest"
+      ],
+      "groupName": "github actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Keep Cargo lock-file maintenance separate",
+      "matchManagers": [
+        "cargo"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
+      "groupName": "cargo lock file maintenance",
+      "groupSlug": "cargo-lock-file-maintenance"
+    },
+    {
+      "description": "Keep pnpm lock-file maintenance separate",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
+      "groupName": "pnpm lock file maintenance",
+      "groupSlug": "pnpm-lock-file-maintenance"
+    },
+    {
+      "description": "Request manual review for compatibility-sensitive dependencies",
+      "matchPackageNames": [
+        "zed_extension_api",
+        "tower-lsp-server",
+        "tree-sitter-cli"
+      ],
+      "reviewers": [
+        "necofuryai"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Request manual review for Rust and Node toolchain updates",
+      "matchManagers": [
+        "rust-toolchain",
+        "nodenv"
+      ],
+      "reviewers": [
+        "necofuryai"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Request manual review for pnpm package-manager updates",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "packageManager"
+      ],
+      "reviewers": [
+        "necofuryai"
+      ],
+      "automerge": false
+    }
+  ]
+}

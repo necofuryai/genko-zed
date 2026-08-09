@@ -18,15 +18,46 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
 
-      - name: Match tag to package version
+      - name: Match tag to component versions
+        id: versions
         shell: bash
         run: |
-          package_version="$(cargo metadata --locked --no-deps --format-version 1 | jq -r '.packages[] | select(.name == "genko-zed") | .version')"
-          test "v${package_version}" = "${GITHUB_REF_NAME}"
+          python3 - <<'PY'
+          import os
+          import tomllib
+          from pathlib import Path
+
+          tag = os.environ["GITHUB_REF_NAME"]
+          expected = tag.removeprefix("v")
+          versions = {
+              "genko-zed": tomllib.loads(Path("Cargo.toml").read_text())["package"]["version"],
+              "genko-ls": tomllib.loads(Path("crates/genko-ls/Cargo.toml").read_text())["package"]["version"],
+              "extension": tomllib.loads(Path("extension.toml").read_text())["version"],
+          }
+          mismatches = {name: version for name, version in versions.items() if version != expected}
+          if mismatches or tag != f"v{expected}":
+              details = ", ".join(f"{name}={version}" for name, version in versions.items())
+              raise SystemExit(f"tag {tag!r} does not match component versions: {details}")
+
+          extension = tomllib.loads(Path("extension.toml").read_text())
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a") as output:
+              print(f"grammar_rev={extension['grammars']['genko']['rev']}", file=output)
+          PY
+
+      - name: Verify release ancestry
+        shell: bash
+        env:
+          GRAMMAR_REV: ${{ steps.versions.outputs.grammar_rev }}
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "${GITHUB_SHA}" origin/main
+          git merge-base --is-ancestor "${GRAMMAR_REV}" "${GITHUB_SHA}"
+          git cat-file -e "${GRAMMAR_REV}:tree-sitter-genko/src/parser.c"
 
   build:
     name: Build ${{ matrix.target }}
@@ -56,14 +87,13 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
         with:
-          toolchain: "1.90"
           target: ${{ matrix.target }}
 
       - name: Install musl tools
@@ -94,7 +124,7 @@ jobs:
           Compress-Archive -Path "$staging/genko-ls.exe" -DestinationPath "dist/${{ matrix.archive }}"
 
       - name: Upload release asset
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-${{ matrix.target }}
           path: dist/${{ matrix.archive }}
@@ -109,7 +139,7 @@ jobs:
       contents: write
     steps:
       - name: Download release assets
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: release-*
           path: dist
