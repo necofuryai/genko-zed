@@ -91,7 +91,15 @@ pnpm run generate
 pnpm test
 ```
 
-Report bugs and feature requests through [GitHub Issues](https://github.com/necofuryai/genko-zed/issues).
+## Contributing
+
+Bug reports, feature requests, and pull requests are welcome in English or Japanese.
+Use a minimal fictional manuscript when reporting a problem, and do not post unpublished writing or personal information.
+Open a [GitHub issue](https://github.com/necofuryai/genko-zed/issues) before implementing a large behavior change.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development environment and pull request process.
+
+Do not disclose vulnerability details in a public issue.
+Follow the [Security Policy](SECURITY.md) to report them privately.
 
 ## License
 

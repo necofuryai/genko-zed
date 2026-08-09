@@ -91,7 +91,14 @@ pnpm run generate
 pnpm test
 ```
 
-不具合や要望は [GitHub Issues](https://github.com/necofuryai/genko-zed/issues) へ報告してください。
+## コントリビューション
+
+不具合報告、機能提案、pull request は日本語と英語で受け付けています。
+再現例には架空の最小原稿を使い、未公開作品や個人情報を投稿しないでください。
+大きな仕様変更を実装する前に、[GitHub Issues](https://github.com/necofuryai/genko-zed/issues) で提案してください。
+開発環境と pull request の手順は [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。
+
+脆弱性の詳細は公開 Issue に書かず、[Security Policy](SECURITY.md) に従って非公開で報告してください。
 
 ## ライセンス
 
