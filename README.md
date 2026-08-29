@@ -40,7 +40,7 @@ Zed で `zed: install dev extension` を実行し、`git clone` で取得した 
 2. Zed が言語を `Genko Novel` と認識したことを確認する。
 3. 原稿内にカーソルを置き、Command Palette から `editor: hover` を実行する。
 
-hover には `本文文字数: N 文字` と表示され、編集内容に追従して更新されます。
+hover には `Body character count: N` と表示され、編集内容に追従して更新されます。
 
 ## 本文文字数の数え方
 

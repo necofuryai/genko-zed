@@ -40,7 +40,7 @@ If `genko-ls` is not on `PATH`, the extension reuses a cached binary or automati
 2. Confirm that Zed recognizes the language as `Genko Novel`.
 3. Place the cursor anywhere in the manuscript and run `editor: hover` from the Command Palette.
 
-The hover displays `本文文字数: N 文字` and updates as the document changes.
+The hover displays `Body character count: N` and updates as the document changes.
 
 ## Character-count semantics
 
