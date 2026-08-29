@@ -85,3 +85,15 @@ Multiline HTML comment
     (plain_text)
     (html_comment)
     (plain_text)))
+
+==================
+Unicode case-fold characters remain plain text
+==================
+
+ſ K
+
+---
+
+(source_file
+  (paragraph
+    (plain_text)))
