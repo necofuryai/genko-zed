@@ -73,7 +73,7 @@ v0.1.0 provides `genko-ls` release binaries for:
 
 ## Development
 
-CI uses Rust 1.90, Node.js 24, and pnpm 10.30.1.
+CI pins the Rust, Node.js, and pnpm versions in `rust-toolchain.toml`, `.node-version`, and `tree-sitter-genko/package.json`, respectively.
 
 ```bash
 cargo fmt --all --check
