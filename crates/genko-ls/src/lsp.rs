@@ -78,7 +78,10 @@ impl LanguageServer for Backend {
         Ok(Some(Hover {
             contents: HoverContents::Markup(MarkupContent {
                 kind: MarkupKind::Markdown,
-                value: format!("**本文文字数:** {} 文字", metrics.body_character_count()),
+                value: format!(
+                    "**Body character count:** {}",
+                    metrics.body_character_count()
+                ),
             }),
             range: None,
         }))
@@ -146,7 +149,7 @@ mod tests {
 
         assert_eq!(
             hover_markdown(&backend).await.as_deref(),
-            Some("**本文文字数:** 3 文字")
+            Some("**Body character count:** 3")
         );
 
         let change: DidChangeTextDocumentParams = serde_json::from_value(json!({
@@ -163,7 +166,7 @@ mod tests {
 
         assert_eq!(
             hover_markdown(&backend).await.as_deref(),
-            Some("**本文文字数:** 2 文字")
+            Some("**Body character count:** 2")
         );
 
         let close: DidCloseTextDocumentParams = serde_json::from_value(json!({
