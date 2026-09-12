@@ -9,7 +9,7 @@
     "test": "tree-sitter test"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.26.13"
+    "tree-sitter-cli": "0.27.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
