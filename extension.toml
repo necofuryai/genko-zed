@@ -1,6 +1,6 @@
-id = "genko-writing"
+id = "genko"
 name = "Genko"
-version = "0.1.1"
+version = "0.1.2"
 schema_version = 1
 authors = ["necofuryai"]
 description = "Japanese fiction writing support with syntax highlighting and character-count hovers."
@@ -8,7 +8,7 @@ repository = "https://github.com/necofuryai/genko-zed"
 
 [grammars.genko]
 repository = "https://github.com/necofuryai/genko-zed"
-rev = "0d0c6c463189dc11137a73227ceef9bf5ac06a47"
+rev = "323a304ad2c8d1d65ec3b5a76f6b75389cd39966"
 path = "tree-sitter-genko"
 
 [language_servers.genko-ls]
