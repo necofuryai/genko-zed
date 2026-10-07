@@ -1,0 +1,9 @@
+allowBuilds:
+  tree-sitter-cli: true
+# Keep pnpm-lock.yaml a single YAML document. With a pnpm 12 packageManager
+# pin, pnpm otherwise prepends an env lockfile document, and GitHub's
+# dependency graph reads only that first document, so tree-sitter-cli would
+# drop out of the graph and its alerts
+# (https://github.com/dependabot/dependabot-core/issues/15904).
+# pnpm then no longer switches to the pinned version by itself.
+pmOnFail: ignore
