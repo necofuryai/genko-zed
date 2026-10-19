@@ -3,7 +3,7 @@
 [日本語](README.md) | English
 
 Genko is a lightweight [Zed](https://zed.dev/) extension for writing Japanese fiction.
-The initial [v0.1.0](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.0) release deliberately focuses on syntax highlighting for `.genko` manuscripts and a document-wide body character count.
+The current [v0.1.2](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.2) release deliberately focuses on syntax highlighting for `.genko` manuscripts and a document-wide body character count.
 
 ## Features
 
@@ -49,11 +49,11 @@ The hover displays `Body character count: N` and updates as the document changes
 - Counts only the base text in complete explicit ruby such as `｜漢字《かんじ》`
 - Excludes complete Aozora Bunko annotations such as `［＃…］` and complete HTML comments
 - Counts incomplete or malformed markup literally
-- Counts implicit ruby such as `漢字《かんじ》` and Kakuyomu-style emphasis such as `《《本文》》` literally, including their delimiters, in v0.1.0
+- Counts implicit ruby such as `漢字《かんじ》` and Kakuyomu-style emphasis such as `《《本文》》` literally, including their delimiters, in v0.1.2
 
 All other characters and punctuation are included in the body character count.
 
-## Not included in v0.1.0
+## Not included in v0.1.2
 
 - Assigning `.txt` or `.md` files to `Genko Novel`
 - Outline, folding, and code actions
@@ -63,7 +63,7 @@ All other characters and punctuation are included in the body character count.
 
 ## Supported platforms
 
-v0.1.0 provides `genko-ls` release binaries for:
+v0.1.2 provides `genko-ls` release binaries for:
 
 - macOS on Apple Silicon and Intel
 - Linux on ARM64 and x86_64
