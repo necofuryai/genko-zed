@@ -3,7 +3,7 @@
 日本語 | [English](README.en.md)
 
 Genko は、[Zed](https://zed.dev/) で日本語小説を書くための軽量な執筆支援拡張です。
-初回版 [v0.1.0](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.0) は、`.genko` 原稿の構文ハイライトと本文文字数の確認に絞っています。
+現行版 [v0.1.2](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.2) は、`.genko` 原稿の構文ハイライトと本文文字数の確認に絞っています。
 
 ## できること
 
@@ -49,11 +49,11 @@ hover には `Body character count: N` と表示され、編集内容に追従�
 - 完結した明示ルビ `｜漢字《かんじ》` は、本文の `漢字` だけを数える
 - 完結した青空文庫注記 `［＃…］` と HTML コメントは数えない
 - 未完または不正な記法は、そのまま本文として数える
-- 暗黙ルビ `漢字《かんじ》` と傍点 `《《本文》》` は、v0.1.0 では記号を含めて数える
+- 暗黙ルビ `漢字《かんじ》` と傍点 `《《本文》》` は、v0.1.2 では記号を含めて数える
 
 上記以外の文字や記号は本文文字数に含まれます。
 
-## v0.1.0 の範囲外
+## v0.1.2 の範囲外
 
 - `.txt` と `.md` の `Genko Novel` への割り当て
 - アウトライン、折りたたみ、code action
@@ -63,7 +63,7 @@ hover には `Body character count: N` と表示され、編集内容に追従�
 
 ## 対応プラットフォーム
 
-v0.1.0 では、次の `genko-ls` リリースバイナリを提供しています。
+v0.1.2 では、次の `genko-ls` リリースバイナリを提供しています。
 
 - macOS：Apple Silicon、Intel
 - Linux：ARM64、x86_64
