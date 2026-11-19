@@ -1,3 +1,11 @@
 name = "Genko Novel"
 grammar = "genko"
 path_suffixes = ["genko"]
+block_comment = ["<!-- ", " -->"]
+brackets = [
+  { start = "「", end = "」", close = true, newline = false },
+  { start = "『", end = "』", close = true, newline = false },
+  { start = "《", end = "》", close = true, newline = false },
+  { start = "（", end = "）", close = true, newline = false },
+  { start = "［", end = "］", close = true, newline = false },
+]

@@ -3,12 +3,14 @@
 日本語 | [English](README.en.md)
 
 Genko は、[Zed](https://zed.dev/) で日本語小説を書くための軽量な執筆支援拡張です。
-現行版 [v0.1.2](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.2) は、`.genko` 原稿の構文ハイライトと本文文字数の確認に絞っています。
+現行版 [v0.1.3](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.3) は、`.genko` 原稿の構文ハイライト、見出しアウトライン、本文文字数の確認に絞っています。
 
 ## できること
 
 - `.genko` ファイルを `Genko Novel` として自動認識する
 - `#` 見出し、`「」` と `『』` の会話文、明示ルビ、カクヨム形式の傍点、青空文庫注記、HTML コメントをハイライトする
+- `#` 見出しのアウトライン表示と移動を提供する
+- `「」` や `『』` などの括弧ペアと HTML ブロックコメントの切り替えに対応する
 - 文書内の任意位置で `editor: hover` を実行すると、文書全体の本文文字数を表示する
 
 ```text
@@ -20,11 +22,12 @@ Genko は、[Zed](https://zed.dev/) で日本語小説を書くための軽量�
 
 ## インストール
 
-Genko は現在、[Zed Extension Registry への登録審査中](https://github.com/zed-industries/extensions/pull/7091)です。
+Genko は現在、[Zed Extension Registry](https://github.com/zed-industries/extensions) への登録審査中です。
 Registry で公開された後は、Zed の Extension Gallery を開き、`Genko` を検索してインストールできます。
 
 Zed Extension Registry で公開される前に試す場合は、開発版としてインストールしてください。
 [Zed の開発版拡張](https://zed.dev/docs/extensions/developing-extensions)のビルドには Rust toolchain が必要です。
+`rust-toolchain.toml` は `rustup` 向けに `wasm32-wasip2` target を指定しています。
 `rustup` を使わない場合は、`wasm32-wasip2` target を利用できるようにしてください。
 
 ```bash
@@ -33,6 +36,7 @@ git clone https://github.com/necofuryai/genko-zed.git
 
 Zed で `zed: install dev extension` を実行し、`git clone` で取得した `genko-zed` ディレクトリを選択します。
 `genko-ls` が `PATH` にない場合、拡張はキャッシュ済みバイナリを再利用するか、対応するバイナリを [GitHub Releases](https://github.com/necofuryai/genko-zed/releases) から自動で取得します。
+オフライン時などで GitHub Releases に接続できない場合も、保存済みのキャッシュがあれば再利用します。
 
 ## 使い方
 
@@ -49,21 +53,21 @@ hover には `Body character count: N` と表示され、編集内容に追従�
 - 完結した明示ルビ `｜漢字《かんじ》` は、本文の `漢字` だけを数える
 - 完結した青空文庫注記 `［＃…］` と HTML コメントは数えない
 - 未完または不正な記法は、そのまま本文として数える
-- 暗黙ルビ `漢字《かんじ》` と傍点 `《《本文》》` は、v0.1.2 では記号を含めて数える
+- 暗黙ルビ `漢字《かんじ》` と傍点 `《《本文》》` は、v0.1.3 では記号を含めて数える
 
 上記以外の文字や記号は本文文字数に含まれます。
 
-## v0.1.2 の範囲外
+## v0.1.3 の範囲外
 
 - `.txt` と `.md` の `Genko Novel` への割り当て
-- アウトライン、折りたたみ、code action
+- 折りたたみと code action
 - 原稿用紙換算、節単位の集計、settings
 - tech モードと Zenn、Qiita 対応
 - ステータスバー表示と縦書きプレビュー
 
 ## 対応プラットフォーム
 
-v0.1.2 では、次の `genko-ls` リリースバイナリを提供しています。
+v0.1.3 では、次の `genko-ls` リリースバイナリを提供しています。
 
 - macOS：Apple Silicon、Intel
 - Linux：ARM64、x86_64
