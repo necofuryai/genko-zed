@@ -3,12 +3,14 @@
 [日本語](README.md) | English
 
 Genko is a lightweight [Zed](https://zed.dev/) extension for writing Japanese fiction.
-The current [v0.1.2](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.2) release deliberately focuses on syntax highlighting for `.genko` manuscripts and a document-wide body character count.
+The current [v0.1.3](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.3) release deliberately focuses on syntax highlighting, heading outlines, and a document-wide body character count for `.genko` manuscripts.
 
 ## Features
 
 - Recognizes `.genko` files as `Genko Novel`
 - Highlights `#` headings, dialogue in `「」` and `『』`, explicit ruby, Kakuyomu-style emphasis, Aozora Bunko annotations, and HTML comments
+- Provides outline navigation for `#` headings
+- Supports Japanese fiction bracket pairs (such as `「」` and `『』`) and HTML block comment toggling
 - Shows the document-wide body character count when you run `editor: hover` at any position
 
 ```text
@@ -20,11 +22,12 @@ The current [v0.1.2](https://github.com/necofuryai/genko-zed/releases/tag/v0.1.2
 
 ## Installation
 
-Genko is currently [under review for the Zed Extension Registry](https://github.com/zed-industries/extensions/pull/7091).
+Genko is currently under review for the [Zed Extension Registry](https://github.com/zed-industries/extensions).
 After it is published, open Zed's Extension Gallery, search for `Genko`, and install it.
 
 Until then, install Genko as a dev extension.
 Building a [Zed dev extension](https://zed.dev/docs/extensions/developing-extensions) requires a Rust toolchain.
+`rust-toolchain.toml` specifies the `wasm32-wasip2` target for `rustup`.
 If you do not use `rustup`, make sure the `wasm32-wasip2` target is available.
 
 ```bash
@@ -33,6 +36,7 @@ git clone https://github.com/necofuryai/genko-zed.git
 
 Run `zed: install dev extension` in Zed and select the cloned `genko-zed` directory.
 If `genko-ls` is not on `PATH`, the extension reuses a cached binary or automatically downloads the matching one from [GitHub Releases](https://github.com/necofuryai/genko-zed/releases).
+If GitHub Releases cannot be reached, such as while offline, it falls back to a cached binary already saved on disk.
 
 ## Usage
 
@@ -49,21 +53,21 @@ The hover displays `Body character count: N` and updates as the document changes
 - Counts only the base text in complete explicit ruby such as `｜漢字《かんじ》`
 - Excludes complete Aozora Bunko annotations such as `［＃…］` and complete HTML comments
 - Counts incomplete or malformed markup literally
-- Counts implicit ruby such as `漢字《かんじ》` and Kakuyomu-style emphasis such as `《《本文》》` literally, including their delimiters, in v0.1.2
+- Counts implicit ruby such as `漢字《かんじ》` and Kakuyomu-style emphasis such as `《《本文》》` literally, including their delimiters, in v0.1.3
 
 All other characters and punctuation are included in the body character count.
 
-## Not included in v0.1.2
+## Not included in v0.1.3
 
 - Assigning `.txt` or `.md` files to `Genko Novel`
-- Outline, folding, and code actions
+- Folding and code actions
 - Manuscript-sheet conversion, section-level statistics, and settings
 - Tech mode or Zenn and Qiita support
 - Status-bar output or vertical-writing preview
 
 ## Supported platforms
 
-v0.1.2 provides `genko-ls` release binaries for:
+v0.1.3 provides `genko-ls` release binaries for:
 
 - macOS on Apple Silicon and Intel
 - Linux on ARM64 and x86_64
